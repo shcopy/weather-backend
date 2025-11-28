@@ -15,10 +15,16 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({
     message: "歡迎使用 CWA 天氣預報 API",
-    endpoints: {
+    // 顯示新的動態路由用法
+    usage: {
+        get_weather: "/api/weather/:city_slug",
+    },
+    examples: {
+      tainan: "/api/weather/tainan",
       kaohsiung: "/api/weather/kaohsiung",
       health: "/api/health",
     },
+    note: "支援的城市別名請參考 /api/weather/tainan (或任一城市) 的錯誤訊息中的 supportedCities 列表。",
   });
 });
 
@@ -26,6 +32,7 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
+// 使用天氣路由
 app.use("/api/weather", weatherRoutes);
 
 // Error handling middleware
